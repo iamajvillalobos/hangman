@@ -20,6 +20,7 @@ defmodule Hangman.Mixfile do
   defp deps do
     [
       { :word_dictionary, path: '../word_dictionary' },
+      { :credo, "~> 0.8", only: [:dev, :test], runtime: false },
     ]
   end
 end
