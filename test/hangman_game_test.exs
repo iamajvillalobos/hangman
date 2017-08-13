@@ -39,7 +39,34 @@ defmodule HangmanGameTest do
   test "second occurence of letter is already used" do
     game = Game.new_game
     { game, _tally } = Game.make_move(game, "x")
+    assert game.game_state != :already_used
     { game, _tally } = Game.make_move(game, "x")
     assert game.game_state == :already_used
+  end
+
+  test "a good guess is recognized" do
+    game = Game.new_game("christa")
+    { game, _tally } = Game.make_move(game, "a")
+    assert game.game_state == :good_guess
+    assert game.turns_left == 7
+  end
+
+  test "a guessed word is a won game" do
+    game = Game.new_game("christa")
+
+    { game, _tally } = Game.make_move(game, "c")
+    assert game.game_state == :good_guess
+    { game, _tally } = Game.make_move(game, "h")
+    assert game.game_state == :good_guess
+    { game, _tally } = Game.make_move(game, "r")
+    assert game.game_state == :good_guess
+    { game, _tally } = Game.make_move(game, "i")
+    assert game.game_state == :good_guess
+    { game, _tally } = Game.make_move(game, "s")
+    assert game.game_state == :good_guess
+    { game, _tally } = Game.make_move(game, "t")
+    assert game.game_state == :good_guess
+    { game, _tally } = Game.make_move(game, "a")
+    assert game.game_state == :won
   end
 end
