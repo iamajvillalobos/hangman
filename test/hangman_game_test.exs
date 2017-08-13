@@ -69,4 +69,38 @@ defmodule HangmanGameTest do
     { game, _tally } = Game.make_move(game, "a")
     assert game.game_state == :won
   end
+
+  test "a bad guess is recognize" do
+    game = Game.new_game("christa")
+
+    { game, _tally } = Game.make_move(game, "x")
+
+    assert game.game_state == :bad_guess
+    assert game.turns_left == 6
+  end
+
+  test "no turns left is a lost game" do
+    game = Game.new_game("z")
+
+    { game, _tally } = Game.make_move(game, "a")
+    assert game.game_state == :bad_guess
+    assert game.turns_left == 6
+    { game, _tally } = Game.make_move(game, "b")
+    assert game.game_state == :bad_guess
+    assert game.turns_left == 5
+    { game, _tally } = Game.make_move(game, "c")
+    assert game.game_state == :bad_guess
+    assert game.turns_left == 4
+    { game, _tally } = Game.make_move(game, "d")
+    assert game.game_state == :bad_guess
+    assert game.turns_left == 3
+    { game, _tally } = Game.make_move(game, "e")
+    assert game.game_state == :bad_guess
+    assert game.turns_left == 2
+    { game, _tally } = Game.make_move(game, "f")
+    assert game.game_state == :bad_guess
+    assert game.turns_left == 1
+    { game, _tally } = Game.make_move(game, "g")
+    assert game.game_state == :lost
+  end
 end
